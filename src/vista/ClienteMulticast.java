@@ -33,10 +33,9 @@ public class ClienteMulticast extends Thread {
             int iPuerto = Integer.parseInt(sPuerto);
             socket = new MulticastSocket(iPuerto);
             socket.joinGroup(group);
-            
-            byte[] buffer = new byte[1000];
             String mensaje = "";
             while (true) {
+            byte[] buffer = new byte[1000];
                 if (mensaje.equalsIgnoreCase("FIN")) {
                     break;
                 }
@@ -62,14 +61,15 @@ public class ClienteMulticast extends Thread {
     
     private void analizarMensaje(String mensaje) {
         String[] respuesta = mensaje.split("\n");
-        if (respuesta.length == 2) {
+        System.out.println("Tamaño: "+respuesta.length);
+        if (respuesta.length == 3) {
             int index = Integer.parseInt(respuesta[0]);
             String ip = respuesta[1];
             System.out.println("turno actual: " + ip);
             System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             Panel.getInstance().voltearTarjeta(index);            
-        }else if(respuesta.length == 1){
+        }else if (respuesta.length == 2){
             String ip = respuesta[0];
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             
