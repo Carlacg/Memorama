@@ -1178,27 +1178,27 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent evento) {
-//        try {
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            System.out.print("Ingrese la IP del servidor: ");
-//            String ip = reader.readLine();
-//            System.out.print("Ingrese el puerto del servidor: ");
-//            int puerto = Integer.valueOf(reader.readLine());
-//
-//            socket = new Socket(ip, puerto);
-//
-//            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-//            out.writeUTF("holi");
-//
-//            socket.close();
-//
-//        } catch (UnknownHostException e) {
-//            System.out.println("Sock:" + e.getMessage());
-//        } catch (EOFException e) {
-//            System.out.println("EOF:" + e.getMessage());
-//        } catch (IOException e) {
-//            System.out.println("IO:" + e.getMessage());
-//        }
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Ingrese la IP del servidor: ");
+            String ip = reader.readLine();
+            System.out.print("Ingrese el puerto del servidor: ");
+            int puerto = Integer.valueOf(reader.readLine());
+
+            socket = new Socket(ip, puerto);
+
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            out.writeUTF("holi");
+
+            socket.close();
+
+        } catch (UnknownHostException e) {
+            System.out.println("Sock:" + e.getMessage());
+        } catch (EOFException e) {
+            System.out.println("EOF:" + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO:" + e.getMessage());
+        }
 
         if (evento.getSource().getClass() == JLabel.class) {
             if (((JLabel) evento.getSource()).isEnabled()) {
