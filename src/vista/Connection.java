@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 public class Connection{
 
     private Socket socket;
-    private final int PORT = 7896;
+    private static final int PORT = 7896;
     private static final ArrayList<Integer> ordenTarjetas= new ArrayList<>();
     
     public Connection() {
@@ -39,5 +39,9 @@ public class Connection{
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ordenTarjetas;
+    }
+    
+    public Socket getSocket() {
+        return socket;
     }
 }

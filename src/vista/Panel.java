@@ -7,17 +7,14 @@ package vista;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -1179,12 +1176,9 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent evento) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Ingrese la IP del servidor: ");
-            String ip = reader.readLine();
-            System.out.print("Ingrese el puerto del servidor: ");
-            int puerto = Integer.valueOf(reader.readLine());
-
+            InetAddress ip = conexion.getSocket().getInetAddress();
+            int puerto = conexion.getSocket().getPort();
+            
             socket = new Socket(ip, puerto);
 
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
