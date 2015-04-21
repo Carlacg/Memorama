@@ -41,7 +41,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         numeros = conexion.saludarServer();
         llenarLabels();
         voltearDisponibles();
-        delay = 1500;
+        delay = 1000;
         iniciarMulticast();
         crearEventos();
         miIp = conexion.getMiIp();
@@ -1215,7 +1215,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF(mensaje);
-            System.out.println(miIp);
+//            System.out.println(miIp);
             socket.close();
 
         } catch (UnknownHostException e) {
