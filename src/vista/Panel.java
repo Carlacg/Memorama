@@ -1244,19 +1244,19 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private void verificar() {
         if (seleccionados.get(0).getIcon().toString().equals(seleccionados.get(1).getIcon().toString())) {
-            if (miTurno) {
-                enviarMensajeServidor("true");
-            }
             for (int i = 0; i < 2; i++) {
                 seleccionados.get(i).setEnabled(true);
             }
             seleccionados.clear();
+            if (miTurno) {
+                enviarMensajeServidor("true");
+            }
         } else {
+            ocultar();
+            seleccionados.clear();
             if (miTurno) {
                 enviarMensajeServidor("false");
             }
-            ocultar();
-            seleccionados.clear();
         }
     }
 
