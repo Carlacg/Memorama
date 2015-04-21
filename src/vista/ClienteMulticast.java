@@ -44,6 +44,7 @@ public class ClienteMulticast extends Thread {
                 socket.receive(mensajeEntrada);
                 String msj = new String(mensajeEntrada.getData());
                 System.out.println("Se recibió el mensaje: " + msj);
+//                System.out.println(socket.getInetAddress());
                 voltearTarjeta(msj);
                 mensajeEntrada = null;
 
