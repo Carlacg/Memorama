@@ -32,11 +32,13 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     Connection conexion;
     private static Panel panel = null;
     private final String miIp;
+    private int delay = 0;
 
     private Panel() {
         initComponents();
         conexion = new Connection();
         numeros = conexion.saludarServer();
+        delay = 1500;
         llenarLabels();
         iniciarMulticast();
         crearEventos();
@@ -1241,7 +1243,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private void ocultar() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(delay);
             for (JLabel label : seleccionados) {
                 label.setEnabled(false);
             }
