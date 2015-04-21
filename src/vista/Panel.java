@@ -27,15 +27,23 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     ArrayList<Integer> numeros = new ArrayList();
     Socket socket = null;
     Connection conexion;
+    private static Panel panel = null;
 
-    public Panel() {
+    private Panel() {
         initComponents();
         conexion = new Connection();
         numeros = conexion.saludarServer();
         llenarLabels();
         crearEventos();
         iniciarMulticast();
-        
+
+    }
+
+    public static Panel getInstance() {
+        if (panel == null) {
+            panel = new Panel();
+        }
+        return panel;
     }
 
     public final void llenarLabels() {
@@ -1166,7 +1174,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         }
     }
 
-
     private void crearEventos() {
         for (JLabel label : labels) {
             label.addMouseListener(this);
@@ -1175,14 +1182,15 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent evento) {
+        int indice = labels.indexOf(((JLabel) evento.getSource()));
         try {
             InetAddress ip = conexion.getSocket().getInetAddress();
             int puerto = conexion.getSocket().getPort();
-            
+
             socket = new Socket(ip, puerto);
 
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            out.writeUTF("holi");
+            out.writeUTF(String.valueOf(indice));
 
             socket.close();
 
@@ -1195,23 +1203,25 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         }
 
         if (evento.getSource().getClass() == JLabel.class) {
-            if (((JLabel) evento.getSource()).isEnabled()) {
-                ((JLabel) evento.getSource()).setEnabled(false);
-            } else {
-                ((JLabel) evento.getSource()).setEnabled(true);
-                seleccionados.add((JLabel) evento.getSource());
+            voltearTarjeta(indice);
+        }
+    }
+
+    public void voltearTarjeta(int indice) {
+        JLabel tarjeta = labels.get(indice);
+        if (!tarjeta.isEnabled()) {
+            tarjeta.setEnabled(true);
+            seleccionados.add(tarjeta);
 //                int num = labels.indexOf(((JLabel)evento.getSource()));
 //                JOptionPane.showMessageDialog(null, num);
-                if (seleccionados.size() == 3) {
-                    verificar();
-                }
+            if (seleccionados.size() == 2) {
+                verificar();
             }
         }
     }
 
     private void verificar() {
         if (seleccionados.get(0).getIcon().toString().equals(seleccionados.get(1).getIcon().toString())) {
-            seleccionados.get(2).setEnabled(false);
             for (int i = 0; i < 2; i++) {
                 seleccionados.get(i).setEnabled(true);
             }
@@ -1265,7 +1275,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Panel().setVisible(true);
+                Panel.getInstance().setVisible(true);
             }
         });
     }

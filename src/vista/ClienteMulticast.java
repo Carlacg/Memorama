@@ -41,7 +41,9 @@ public class ClienteMulticast extends Thread{
                 }
                 DatagramPacket mensajeEntrada = new DatagramPacket(buffer, buffer.length);
                 socket.receive(mensajeEntrada);
-                System.out.println("Se recibió el mensaje: " + new String(mensajeEntrada.getData()));
+                String msj = new String(mensajeEntrada.getData());
+                System.out.println("Se recibió el mensaje: " + msj);
+                voltearTarjeta(msj);
                 mensajeEntrada = null;
                 
             }
@@ -56,8 +58,9 @@ public class ClienteMulticast extends Thread{
         }
     }
     
-    public void IniciarConexion(){
-        
+    private void voltearTarjeta(String indice){
+        String[] respuesta = indice.split("\n");
+        int index = Integer.parseInt(respuesta[0]);
+        Panel.getInstance().voltearTarjeta(index);
     }
-    
 }
