@@ -23,24 +23,8 @@ public class ClienteMulticast extends Thread{
     public void run() {
         
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String grp = null;
-        String sPuerto = null;
-        
-        System.out.print("Ingrese la dirección IP: ");
-        try {
-            grp = reader.readLine();
-        } catch (IOException e) {
-            System.out.println("IOException");
-            e.printStackTrace();
-        }
-
-        System.out.print("Ingrese el puerto: ");
-        try {
-            sPuerto = reader.readLine();
-        } catch (IOException e) {
-            System.out.println("IOException");
-            e.printStackTrace();
-        }
+        String grp = "228.5.6.1";
+        String sPuerto = "7891";
 
         MulticastSocket socket = null;
         try {

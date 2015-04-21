@@ -33,9 +33,12 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     public Panel() {
         initComponents();
+        conexion = new Connection();
+        numeros = conexion.saludarServer();
         llenarLabels();
         crearEventos();
         iniciarMulticast();
+        
     }
 
     public final void llenarLabels() {
@@ -1108,11 +1111,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 18, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1121,7 +1119,16 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                                 .addGap(84, 84, 84))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(86, 86, 86))))))
+                                .addGap(86, 86, 86))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(166, 166, 166)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1157,21 +1164,11 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void asignarTarjetas() {
-        for (JLabel label : labels) {
-            label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/" + ((generarNumero() % 25) + 1) + ".png")));
+        for (int i = 0; i < 100; i++) {
+            labels.get(i).setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/" + ((numeros.get(i) % 25) + 1) + ".png")));
         }
     }
 
-    private int generarNumero() {
-        Random rand = new Random();
-        int numero = rand.nextInt((100 - 1) + 1) + 1;
-        if (numeros.contains(numero)) {
-            return generarNumero();
-        } else {
-            numeros.add(numero);
-            return numero;
-        }
-    }
 
     private void crearEventos() {
         for (JLabel label : labels) {
@@ -1181,32 +1178,27 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent evento) {
-        try {
-            // conexion = new Connection();
-            // Pide los datos del servidor
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Ingrese la IP del servidor: ");
-            String ip = reader.readLine();
-            System.out.print("Ingrese el puerto del servidor: ");
-            int puerto = Integer.valueOf(reader.readLine());
-
-            socket = new Socket(ip, puerto);
-
-            // Pide la conversión a realizar
-            // Envia el paquete
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            out.writeUTF("holi");
-
-            socket.close();
-
-            //conexion.start();
-        } catch (UnknownHostException e) {
-            System.out.println("Sock:" + e.getMessage());
-        } catch (EOFException e) {
-            System.out.println("EOF:" + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("IO:" + e.getMessage());
-        }
+//        try {
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//            System.out.print("Ingrese la IP del servidor: ");
+//            String ip = reader.readLine();
+//            System.out.print("Ingrese el puerto del servidor: ");
+//            int puerto = Integer.valueOf(reader.readLine());
+//
+//            socket = new Socket(ip, puerto);
+//
+//            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+//            out.writeUTF("holi");
+//
+//            socket.close();
+//
+//        } catch (UnknownHostException e) {
+//            System.out.println("Sock:" + e.getMessage());
+//        } catch (EOFException e) {
+//            System.out.println("EOF:" + e.getMessage());
+//        } catch (IOException e) {
+//            System.out.println("IO:" + e.getMessage());
+//        }
 
         if (evento.getSource().getClass() == JLabel.class) {
             if (((JLabel) evento.getSource()).isEnabled()) {

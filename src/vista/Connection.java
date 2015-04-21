@@ -1,38 +1,43 @@
 package vista;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class Connection extends Thread {
+public class Connection{
 
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private DataInputStream in;
-    private final int PORT = 7891;
-
+    private Socket socket;
+    private final int PORT = 7896;
+    private static final ArrayList<Integer> ordenTarjetas= new ArrayList<>();
+    
     public Connection() {
-        //this.start();
     }
 
-    public void run() {
+    public ArrayList<Integer> saludarServer() {
         try {
-            serverSocket = new ServerSocket(PORT);
-//            while (true) {
-            clientSocket = null;
-//                clientSocket.getLocalPort();
-            clientSocket = serverSocket.accept();
-            in = new DataInputStream(clientSocket.getInputStream());
-            String cadena = in.readUTF();
-            JOptionPane.showMessageDialog(null, cadena);
-            clientSocket.close();
-            serverSocket.close();
-//            }
+            String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
+            socket = new Socket(ip, PORT);
+            
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            out.writeUTF("holi");
+            
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            String orden = in.readUTF();
+            
+            String[] tarjetas = orden.split("\n");
+            for (String tarjeta : tarjetas) {
+                ordenTarjetas.add(new Integer (tarjeta));
+            }
+        
+            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return ordenTarjetas;
     }
 }
