@@ -65,7 +65,7 @@ public class ClienteMulticast extends Thread {
         String[] respuesta = indice.split("\n");
         int index = Integer.parseInt(respuesta[0]);
         String ip = respuesta[1];
-        Panel.getInstance().voltearTarjeta(index, ip);
+        Panel.getInstance().voltearTarjeta(index);
 
     }
 }

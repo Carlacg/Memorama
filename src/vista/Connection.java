@@ -30,13 +30,16 @@ public class Connection{
             out.writeUTF("holi");
             
             DataInputStream in = new DataInputStream(socket.getInputStream());
-            String orden = in.readUTF();
-            
-            String[] tarjetas = orden.split("\n");
-            for (String tarjeta : tarjetas) {
+            String lista = in.readUTF();
+            String[] tarjetas = lista.split("@");
+            String[] orden = tarjetas[0].split("\n");
+            String[] volteadas = tarjetas[1].split("\n");
+            for (String tarjeta : orden) {
                 ordenTarjetas.add(new Integer (tarjeta));
             }
-        
+            for (String volteada : volteadas) {
+                Panel.getInstance().voltearTarjeta(new Integer(volteada));
+            }
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);

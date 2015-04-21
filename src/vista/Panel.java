@@ -1212,7 +1212,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 //        }
     }
 
-    public void voltearTarjeta(int indice, String turno) {
+    public void voltearTarjeta(int indice) {
         
         JLabel tarjeta = labels.get(indice);
         if (!tarjeta.isEnabled()) {
