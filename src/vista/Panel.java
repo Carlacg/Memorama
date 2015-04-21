@@ -38,9 +38,9 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         initComponents();
         conexion = new Connection();
         numeros = conexion.saludarServer();
+        llenarLabels();
         voltearDisponibles();
         delay = 1500;
-        llenarLabels();
         iniciarMulticast();
         crearEventos();
         miIp = conexion.getMiIp();
