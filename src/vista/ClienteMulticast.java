@@ -61,7 +61,6 @@ public class ClienteMulticast extends Thread {
     }
 
     private void voltearTarjeta(String indice) {
-
         String[] respuesta = indice.split("\n");
         int index = Integer.parseInt(respuesta[0]);
         String ip = respuesta[1];
