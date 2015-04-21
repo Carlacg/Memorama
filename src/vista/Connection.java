@@ -15,6 +15,7 @@ public class Connection {
     private Socket socket;
     private static final int PORT = 7896;
     private static final ArrayList<Integer> ordenTarjetas = new ArrayList<>();
+    private final ArrayList<Integer> volteadas = new ArrayList<>();
     private String miIp;
 
     public Connection() {
@@ -39,7 +40,7 @@ public class Connection {
             if (tarjetas.length == 2) {
                 String[] volteadas = tarjetas[1].split("\n");
                 for (String volteada : volteadas) {
-                    Panel.getInstance().voltearTarjeta(new Integer(volteada));
+                    this.volteadas.add(new Integer(volteada));
                 }
             }
             socket.close();
@@ -57,4 +58,8 @@ public class Connection {
         return miIp;
     }
 
+    public ArrayList<Integer> getVolteadas() {
+        return volteadas;
+    }
+    
 }

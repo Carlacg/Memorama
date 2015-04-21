@@ -38,6 +38,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         initComponents();
         conexion = new Connection();
         numeros = conexion.saludarServer();
+        voltearDisponibles();
         delay = 1500;
         llenarLabels();
         iniciarMulticast();
@@ -53,6 +54,11 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         return panel;
     }
 
+    private void voltearDisponibles(){
+        for (Integer volteada : conexion.getVolteadas()) {
+            voltearTarjeta(volteada);
+        }
+    }
     public final void llenarLabels() {
         labels.add(T1);
         labels.add(T2);
