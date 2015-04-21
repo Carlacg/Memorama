@@ -30,12 +30,12 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     private static Panel panel = null;
 
     private Panel() {
+        iniciarMulticast();
         initComponents();
         conexion = new Connection();
         numeros = conexion.saludarServer();
         llenarLabels();
         crearEventos();
-        iniciarMulticast();
 
     }
 

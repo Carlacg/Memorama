@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,6 +21,7 @@ public class Connection{
 
     public ArrayList<Integer> saludarServer() {
         try {
+
             String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
             socket = new Socket(ip, PORT);
             
