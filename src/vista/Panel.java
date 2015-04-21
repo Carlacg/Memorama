@@ -14,7 +14,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -1237,8 +1240,13 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }
 
     private void ocultar() {
-        for (JLabel label : seleccionados) {
-            label.setEnabled(false);
+        try {
+            Thread.sleep(2000);
+            for (JLabel label : seleccionados) {
+                label.setEnabled(false);
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
