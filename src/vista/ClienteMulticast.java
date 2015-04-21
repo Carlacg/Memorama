@@ -20,20 +20,20 @@ import java.util.logging.Logger;
  * @author david
  */
 public class ClienteMulticast extends Thread {
-
+    
     public void run() {
-
+        
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String grp = "228.5.6.1";
         String sPuerto = "7891";
-
+        
         MulticastSocket socket = null;
         try {
             InetAddress group = InetAddress.getByName(grp);
             int iPuerto = Integer.parseInt(sPuerto);
             socket = new MulticastSocket(iPuerto);
             socket.joinGroup(group);
-
+            
             byte[] buffer = new byte[1000];
             String mensaje = "";
             while (true) {
@@ -45,12 +45,12 @@ public class ClienteMulticast extends Thread {
                 String msj = new String(mensajeEntrada.getData());
                 System.out.println("Se recibió el mensaje: " + msj);
 //                System.out.println(socket.getInetAddress());
-                voltearTarjeta(msj);
+                analizarMensaje(msj);
                 mensajeEntrada = null;
-
+                
             }
             socket.leaveGroup(group);
-
+            
         } catch (UnknownHostException e) {
             System.out.println("UnknownHostException");
             e.printStackTrace();
@@ -59,14 +59,21 @@ public class ClienteMulticast extends Thread {
             e.printStackTrace();
         }
     }
-
-    private void voltearTarjeta(String indice) {
-        String[] respuesta = indice.split("\n");
-        int index = Integer.parseInt(respuesta[0]);
-        String ip = respuesta[1];
-        System.out.println("turno actual: "+ip);
-        System.out.println("Mi turno: "+Panel.getInstance().getMiIp());
-        Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
-        Panel.getInstance().voltearTarjeta(index);
+    
+    private void analizarMensaje(String mensaje) {
+        String[] respuesta = mensaje.split("\n");
+        if (respuesta.length == 2) {
+            int index = Integer.parseInt(respuesta[0]);
+            String ip = respuesta[1];
+            System.out.println("turno actual: " + ip);
+            System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
+            Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+            Panel.getInstance().voltearTarjeta(index);            
+        }else if(respuesta.length == 1){
+            String ip = respuesta[0];
+            Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+            
+        }
+        
     }
 }
