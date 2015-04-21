@@ -12,16 +12,17 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author david
  */
-public class ClienteMulticast extends Thread{
+public class ClienteMulticast extends Thread {
 
-    
     public void run() {
-        
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String grp = "228.5.6.1";
         String sPuerto = "7891";
@@ -43,9 +44,10 @@ public class ClienteMulticast extends Thread{
                 socket.receive(mensajeEntrada);
                 String msj = new String(mensajeEntrada.getData());
                 System.out.println("Se recibió el mensaje: " + msj);
+                System.out.println(socket.getInetAddress());
                 voltearTarjeta(msj);
                 mensajeEntrada = null;
-                
+
             }
             socket.leaveGroup(group);
 
@@ -57,10 +59,13 @@ public class ClienteMulticast extends Thread{
             e.printStackTrace();
         }
     }
-    
-    private void voltearTarjeta(String indice){
+
+    private void voltearTarjeta(String indice) {
+
         String[] respuesta = indice.split("\n");
         int index = Integer.parseInt(respuesta[0]);
-        Panel.getInstance().voltearTarjeta(index);
+        String ip = respuesta[1];
+        Panel.getInstance().voltearTarjeta(index, ip);
+
     }
 }
