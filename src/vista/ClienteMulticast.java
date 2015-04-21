@@ -72,6 +72,7 @@ public class ClienteMulticast extends Thread {
         }else if (respuesta.length == 2){
             String ip = respuesta[0];
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+            System.out.println(Panel.getInstance().isMiTurno());
             
         }
         
