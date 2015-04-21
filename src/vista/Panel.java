@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     private static Panel panel = null;
     private final String miIp;
     private int delay = 0;
+    private boolean miTurno;
 
     private Panel() {
         initComponents();
@@ -53,11 +55,12 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         return panel;
     }
 
-    private void voltearDisponibles(){
+    private void voltearDisponibles() {
         for (Integer volteada : conexion.getVolteadas()) {
             voltearTarjeta(volteada);
         }
     }
+
     public final void llenarLabels() {
         labels.add(T1);
         labels.add(T2);
@@ -1194,15 +1197,23 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent evento) {
-        int indice = labels.indexOf(((JLabel) evento.getSource()));
+        if (miTurno) {
+            int indice = labels.indexOf(((JLabel) evento.getSource()));
+            enviarMensajeServidor(String.valueOf(indice));
+        } else {
+            JOptionPane.showMessageDialog(this, "No es tu turno");
+        }
+    }
+
+    private void enviarMensajeServidor(String mensaje) {
         try {
             InetAddress ip = conexion.getSocket().getInetAddress();
             int puerto = conexion.getSocket().getPort();
 
             socket = new Socket(ip, puerto);
-            
+
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            out.writeUTF(String.valueOf(indice));
+            out.writeUTF(mensaje);
             System.out.println(miIp);
             socket.close();
 
@@ -1213,14 +1224,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
         }
-
-//        if (evento.getSource().getClass() == JLabel.class) {
-//            voltearTarjeta(indice,miIp);
-//        }
     }
 
     public void voltearTarjeta(int indice) {
-        
+
         JLabel tarjeta = labels.get(indice);
         if (!tarjeta.isEnabled()) {
             tarjeta.setEnabled(true);
@@ -1230,8 +1237,8 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             if (seleccionados.size() == 2) {
                 verificar();
             }
-        }    
-        
+        }
+
     }
 
     private void verificar() {
@@ -1430,4 +1437,18 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent me) {
     }
+
+    public boolean isMiTurno() {
+        return miTurno;
+    }
+
+    public void setMiTurno(boolean miTurno) {
+        this.miTurno = miTurno;
+    }
+
+    public String getMiIp() {
+        return miIp;
+    }
+
+    
 }
