@@ -1198,7 +1198,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent evento) {
         if (miTurno) {
-            setMiTurno(false);
+//            setMiTurno(false);
             int indice = labels.indexOf(((JLabel) evento.getSource()));
             enviarMensajeServidor(String.valueOf(indice));
         } else {
