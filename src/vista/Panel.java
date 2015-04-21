@@ -28,6 +28,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     Socket socket = null;
     Connection conexion;
     private static Panel panel = null;
+    private final String miIp;
 
     private Panel() {
         initComponents();
@@ -36,6 +37,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         llenarLabels();
         crearEventos();
         iniciarMulticast();
+        miIp = conexion.getMiIp();
 
     }
 
@@ -1188,10 +1190,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             int puerto = conexion.getSocket().getPort();
 
             socket = new Socket(ip, puerto);
-
+            
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF(String.valueOf(indice));
-
+            System.out.println(miIp);
             socket.close();
 
         } catch (UnknownHostException e) {
@@ -1202,12 +1204,13 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             System.out.println("IO:" + e.getMessage());
         }
 
-        if (evento.getSource().getClass() == JLabel.class) {
-            voltearTarjeta(indice);
-        }
+//        if (evento.getSource().getClass() == JLabel.class) {
+//            voltearTarjeta(indice,miIp);
+//        }
     }
 
-    public void voltearTarjeta(int indice) {
+    public void voltearTarjeta(int indice, String turno) {
+        
         JLabel tarjeta = labels.get(indice);
         if (!tarjeta.isEnabled()) {
             tarjeta.setEnabled(true);
@@ -1217,7 +1220,8 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             if (seleccionados.size() == 2) {
                 verificar();
             }
-        }
+        }    
+        
     }
 
     private void verificar() {

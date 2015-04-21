@@ -14,6 +14,7 @@ public class Connection{
     private Socket socket;
     private static final int PORT = 7896;
     private static final ArrayList<Integer> ordenTarjetas= new ArrayList<>();
+    private String miIp;
     
     public Connection() {
     }
@@ -22,7 +23,7 @@ public class Connection{
         try {
             String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
             socket = new Socket(ip, PORT);
-            
+            miIp = socket.getLocalAddress().toString();
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF("holi");
             
@@ -44,4 +45,9 @@ public class Connection{
     public Socket getSocket() {
         return socket;
     }
+
+    public String getMiIp() {
+        return miIp;
+    }
+    
 }
