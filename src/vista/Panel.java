@@ -1244,13 +1244,17 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private void verificar() {
         if (seleccionados.get(0).getIcon().toString().equals(seleccionados.get(1).getIcon().toString())) {
-            enviarMensajeServidor("true");
+            if (miTurno) {
+                enviarMensajeServidor("true");
+            }
             for (int i = 0; i < 2; i++) {
                 seleccionados.get(i).setEnabled(true);
             }
             seleccionados.clear();
         } else {
-            enviarMensajeServidor("false");
+            if (miTurno) {
+                enviarMensajeServidor("false");
+            }
             ocultar();
             seleccionados.clear();
         }
@@ -1453,5 +1457,4 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         return miIp;
     }
 
-    
 }
