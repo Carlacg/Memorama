@@ -1241,7 +1241,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private void ocultar() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1500);
             for (JLabel label : seleccionados) {
                 label.setEnabled(false);
             }
