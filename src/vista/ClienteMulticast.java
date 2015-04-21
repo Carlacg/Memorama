@@ -1,0 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vista;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.UnknownHostException;
+
+/**
+ *
+ * @author david
+ */
+public class ClienteMulticast extends Thread{
+
+    
+    public void run() {
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String grp = null;
+        String sPuerto = null;
+        
+        System.out.print("Ingrese la dirección IP: ");
+        try {
+            grp = reader.readLine();
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+
+        System.out.print("Ingrese el puerto: ");
+        try {
+            sPuerto = reader.readLine();
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+
+        MulticastSocket socket = null;
+        try {
+            InetAddress group = InetAddress.getByName(grp);
+            int iPuerto = Integer.parseInt(sPuerto);
+            socket = new MulticastSocket(iPuerto);
+            socket.joinGroup(group);
+
+            byte[] buffer = new byte[1000];
+            String mensaje = "";
+            while (true) {
+                if (mensaje.equalsIgnoreCase("FIN")) {
+                    break;
+                }
+                DatagramPacket mensajeEntrada = new DatagramPacket(buffer, buffer.length);
+                socket.receive(mensajeEntrada);
+                System.out.println("Se recibió el mensaje: " + new String(mensajeEntrada.getData()));
+                mensajeEntrada = null;
+                
+            }
+            socket.leaveGroup(group);
+
+        } catch (UnknownHostException e) {
+            System.out.println("UnknownHostException");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+    }
+    
+    public void IniciarConexion(){
+        
+    }
+    
+}
