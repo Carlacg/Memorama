@@ -45,7 +45,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         iniciarMulticast();
         crearEventos();
         miIp = conexion.getMiIp();
-
+        setMiTurno(conexion.getTurnoActual().equals(miIp));
     }
 
     public static Panel getInstance() {

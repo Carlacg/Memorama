@@ -39,8 +39,8 @@ public class Connection {
                 ordenTarjetas.add(new Integer(tarjeta));
             }
             this.turnoActual = tarjetas[1];
-            boolean turno = turnoActual.equals(Panel.getInstance().getMiIp());
-            Panel.getInstance().setMiTurno(turno);
+//            boolean turno = turnoActual.equals(Panel.getInstance().getMiIp());
+//            Panel.getInstance().setMiTurno(turno);
             this.jugador = tarjetas[2];
             if (tarjetas.length == 4) {
                 String[] volteadas = tarjetas[3].split("\n");
