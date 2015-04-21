@@ -10,13 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class Connection{
+public class Connection {
 
     private Socket socket;
     private static final int PORT = 7896;
-    private static final ArrayList<Integer> ordenTarjetas= new ArrayList<>();
+    private static final ArrayList<Integer> ordenTarjetas = new ArrayList<>();
     private String miIp;
-    
+
     public Connection() {
     }
 
@@ -28,17 +28,19 @@ public class Connection{
             miIp = socket.getLocalAddress().toString();
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF("holi");
-            
+
             DataInputStream in = new DataInputStream(socket.getInputStream());
             String lista = in.readUTF();
             String[] tarjetas = lista.split("@");
             String[] orden = tarjetas[0].split("\n");
-            String[] volteadas = tarjetas[1].split("\n");
             for (String tarjeta : orden) {
-                ordenTarjetas.add(new Integer (tarjeta));
+                ordenTarjetas.add(new Integer(tarjeta));
             }
-            for (String volteada : volteadas) {
-                Panel.getInstance().voltearTarjeta(new Integer(volteada));
+            if (tarjetas.length == 2) {
+                String[] volteadas = tarjetas[1].split("\n");
+                for (String volteada : volteadas) {
+                    Panel.getInstance().voltearTarjeta(new Integer(volteada));
+                }
             }
             socket.close();
         } catch (IOException ex) {
@@ -46,7 +48,7 @@ public class Connection{
         }
         return ordenTarjetas;
     }
-    
+
     public Socket getSocket() {
         return socket;
     }
@@ -54,5 +56,5 @@ public class Connection{
     public String getMiIp() {
         return miIp;
     }
-    
+
 }
