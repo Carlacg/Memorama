@@ -16,6 +16,8 @@ public class Connection {
     private static final ArrayList<Integer> ordenTarjetas = new ArrayList<>();
     private final ArrayList<Integer> volteadas = new ArrayList<>();
     private String miIp;
+    private String jugador = "";
+    private String turnoActual = "";
 
     public Connection() {
     }
@@ -36,12 +38,16 @@ public class Connection {
             for (String tarjeta : orden) {
                 ordenTarjetas.add(new Integer(tarjeta));
             }
-            if (tarjetas.length == 2) {
-                String[] volteadas = tarjetas[1].split("\n");
+            this.turnoActual = tarjetas[1];
+            this.jugador = tarjetas[2];
+            if (tarjetas.length == 4) {
+                String[] volteadas = tarjetas[3].split("\n");
                 for (String volteada : volteadas) {
                     this.volteadas.add(new Integer(volteada));
                 }
             }
+            
+            JOptionPane.showMessageDialog(null, "Bienvenido, eres el jugador "+ getJugador());
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,5 +66,14 @@ public class Connection {
     public ArrayList<Integer> getVolteadas() {
         return volteadas;
     }
+
+    public String getJugador() {
+        return jugador;
+    }
+
+    public String getTurnoActual() {
+        return turnoActual;
+    }
+    
     
 }
