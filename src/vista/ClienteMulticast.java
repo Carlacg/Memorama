@@ -64,6 +64,8 @@ public class ClienteMulticast extends Thread {
         String[] respuesta = indice.split("\n");
         int index = Integer.parseInt(respuesta[0]);
         String ip = respuesta[1];
+        System.out.println("turno actual: "+ip);
+        System.out.println("Mi turno: "+Panel.getInstance().getMiIp());
         Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
         Panel.getInstance().voltearTarjeta(index);
     }
