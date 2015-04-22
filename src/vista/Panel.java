@@ -1239,7 +1239,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                 verificar();
             }
         }
-
     }
 
     private void verificar() {

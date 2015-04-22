@@ -25,7 +25,7 @@ public class ClienteMulticast extends Thread {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String grp = "228.5.6.1";
-        String sPuerto = "7891";
+        String sPuerto = "7890";
 
         MulticastSocket socket = null;
         try {
