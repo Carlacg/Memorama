@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista;
 
 import java.awt.event.MouseEvent;
@@ -19,10 +15,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author carla
- */
 public class Panel extends javax.swing.JFrame implements MouseListener {
 
     ArrayList<JLabel> labels = new ArrayList();
@@ -275,7 +267,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         T98 = new javax.swing.JLabel();
         T99 = new javax.swing.JLabel();
         T100 = new javax.swing.JLabel();
-        btnMezclar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -1025,19 +1016,11 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                     .addComponent(T100)))
         );
 
-        btnMezclar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/mezclar.png"))); // NOI18N
-        btnMezclar.setToolTipText("");
-        btnMezclar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMezclarActionPerformed(evt);
-            }
-        });
-
         jButton1.setBackground(new java.awt.Color(148, 1, 1));
         jButton1.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(254, 254, 254));
         jButton1.setText("Salir");
-        jButton1.setToolTipText("");
+        jButton1.setToolTipText(""); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1133,13 +1116,8 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnMezclar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(84, 84, 84))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(86, 86, 86))))
+                        .addComponent(jLabel1)
+                        .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -1148,7 +1126,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1159,8 +1137,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMezclar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1169,14 +1145,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnMezclarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMezclarActionPerformed
-        numeros.clear();
-        asignarTarjetas();
-        for (JLabel label : labels) {
-            label.setEnabled(false);
-        }
-    }//GEN-LAST:event_btnMezclarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
@@ -1272,7 +1240,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }
 
     private void iniciarMulticast() {
-        ClienteMulticast cliente = new ClienteMulticast();
+        ClienteTCP cliente = new ClienteTCP();
         cliente.start();
     }
 
@@ -1417,7 +1385,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     public javax.swing.JLabel T97;
     public javax.swing.JLabel T98;
     public javax.swing.JLabel T99;
-    private javax.swing.JButton btnMezclar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
