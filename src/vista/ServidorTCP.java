@@ -44,11 +44,6 @@ public class ServidorTCP extends Thread {
             System.out.println("turno actual: " + ip);
             System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
-            if (Panel.getInstance().getMiIp().equals(ip)) {
-                Panel.getInstance().turnoLb.setText("Es tu turno");
-            } else {
-                Panel.getInstance().turnoLb.setText(" ");
-            }
             Panel.getInstance().voltearTarjeta(index);
         } else if (respuesta[0].equals("puntuacion")) {
             String ip = respuesta[1];
@@ -56,9 +51,19 @@ public class ServidorTCP extends Thread {
             System.out.println(Panel.getInstance().isMiTurno());
             establecerPuntuaciones(respuesta[2]);
         }
+        if (Panel.getInstance().isMiTurno()) {
+            Panel.getInstance().turnoLb.setText("Es tu turno");
+        } else {
+            Panel.getInstance().turnoLb.setText(" ");
+        }
 
     }
 
     private void establecerPuntuaciones(String respuesta) {
+        String[] puntuacion = respuesta.split(",");
+        Panel.J1.setText(puntuacion[0]);
+        Panel.J2.setText(puntuacion[1]);
+        Panel.J3.setText(puntuacion[2]);
+        Panel.J4.setText(puntuacion[3]);
     }
 }
