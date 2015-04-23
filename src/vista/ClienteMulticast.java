@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,16 +23,12 @@ import java.util.logging.Logger;
 public class ClienteMulticast extends Thread {
 
     public void run() {
+        String IP = "228.5.6.1";
+        int PUERTO = 7890;
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String grp = "228.5.6.1";
-        String sPuerto = "7890";
-
-        MulticastSocket socket = null;
+        Socket socket = null;
         try {
-            InetAddress group = InetAddress.getByName(grp);
-            int iPuerto = Integer.parseInt(sPuerto);
-            socket = new MulticastSocket(iPuerto);
+            socket = new Socket(IP, PUERTO);
             socket.joinGroup(group);
             String mensaje = "";
             while (true) {
