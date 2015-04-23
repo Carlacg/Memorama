@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClienteTCP extends Thread {
+public class ServidorTCP extends Thread {
 
     public void run() {
         

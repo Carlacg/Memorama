@@ -1240,7 +1240,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }
 
     private void iniciarMulticast() {
-        ClienteTCP cliente = new ClienteTCP();
+        ServidorTCP cliente = new ServidorTCP();
         cliente.start();
     }
 
