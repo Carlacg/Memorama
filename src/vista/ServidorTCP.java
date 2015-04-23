@@ -39,19 +39,22 @@ public class ServidorTCP extends Thread {
     private void analizarMensaje(String mensaje) {
         String[] respuesta = mensaje.split("\n");
         System.out.println("Tamaño: " + respuesta.length);
-        if (respuesta.length == 2) {
-            int index = Integer.parseInt(respuesta[0]);
-            String ip = respuesta[1];
+        if (respuesta[0].equals("movimiento")) {
+            int index = Integer.parseInt(respuesta[1]);
+            String ip = respuesta[2];
             System.out.println("turno actual: " + ip);
             System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             Panel.getInstance().voltearTarjeta(index);
-        } else if (respuesta.length == 1) {
-            String ip = respuesta[0];
+        } else if (respuesta[0].equals("puntuacion")) {
+            String ip = respuesta[1];
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             System.out.println(Panel.getInstance().isMiTurno());
-
+            establecerPuntuaciones(respuesta[2]);
         }
 
+    }
+
+    private void establecerPuntuaciones(String respuesta) {
     }
 }
