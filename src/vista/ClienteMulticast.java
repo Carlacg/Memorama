@@ -54,14 +54,14 @@ public class ClienteMulticast extends Thread {
     private void analizarMensaje(String mensaje) {
         String[] respuesta = mensaje.split("\n");
         System.out.println("Tamaño: " + respuesta.length);
-        if (respuesta.length == 3) {
+        if (respuesta.length == 2) {
             int index = Integer.parseInt(respuesta[0]);
             String ip = respuesta[1];
             System.out.println("turno actual: " + ip);
             System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             Panel.getInstance().voltearTarjeta(index);
-        } else if (respuesta.length == 2) {
+        } else if (respuesta.length == 1) {
             String ip = respuesta[0];
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             System.out.println(Panel.getInstance().isMiTurno());
