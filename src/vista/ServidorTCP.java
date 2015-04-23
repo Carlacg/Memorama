@@ -1,4 +1,3 @@
-
 package vista;
 
 import java.io.DataInputStream;
@@ -10,12 +9,12 @@ import java.net.UnknownHostException;
 public class ServidorTCP extends Thread {
 
     public void run() {
-        
+
         int PUERTO = 7890;
         DataInputStream mensajeEntrada = null;
         ServerSocket socketServidor = null;
         Socket socket = null;
-        
+
         try {
             socketServidor = new ServerSocket(PUERTO);
             while (true) {
@@ -45,6 +44,11 @@ public class ServidorTCP extends Thread {
             System.out.println("turno actual: " + ip);
             System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+            if (Panel.getInstance().getMiIp().equals(ip)) {
+                Panel.getInstance().turnoLb.setText("Es tu turno");
+            } else {
+                Panel.getInstance().turnoLb.setText(" ");
+            }
             Panel.getInstance().voltearTarjeta(index);
         } else if (respuesta[0].equals("puntuacion")) {
             String ip = respuesta[1];

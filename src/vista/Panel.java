@@ -29,7 +29,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private Panel() {
         initComponents();
-        iniciarMulticast();
+        iniciarServidor();
         conexion = new Connection();
         numeros = conexion.saludarServer();
         llenarLabels();
@@ -278,6 +278,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         J2 = new javax.swing.JLabel();
         J3 = new javax.swing.JLabel();
         J4 = new javax.swing.JLabel();
+        turnoLb = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memorama");
@@ -1017,7 +1018,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         );
 
         jButton1.setBackground(new java.awt.Color(148, 1, 1));
-        jButton1.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(254, 254, 254));
         jButton1.setText("Salir");
         jButton1.setToolTipText(""); // NOI18N
@@ -1106,6 +1107,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                 .addContainerGap())
         );
 
+        turnoLb.setFont(new java.awt.Font("Cantarell", 0, 18)); // NOI18N
+        turnoLb.setForeground(new java.awt.Color(119, 2, 63));
+        turnoLb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1115,30 +1120,33 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 88, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(86, 86, 86))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(166, 166, 166)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(turnoLb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(turnoLb)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1239,7 +1247,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     }
 
-    private void iniciarMulticast() {
+    private void iniciarServidor() {
         ServidorTCP cliente = new ServidorTCP();
         cliente.start();
     }
@@ -1281,10 +1289,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel J1;
-    private javax.swing.JLabel J2;
-    private javax.swing.JLabel J3;
-    private javax.swing.JLabel J4;
+    public static javax.swing.JLabel J1;
+    public static javax.swing.JLabel J2;
+    public static javax.swing.JLabel J3;
+    public static javax.swing.JLabel J4;
     public javax.swing.JLabel T1;
     public javax.swing.JLabel T10;
     public javax.swing.JLabel T100;
@@ -1393,6 +1401,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    public static javax.swing.JLabel turnoLb;
     // End of variables declaration//GEN-END:variables
 
     @Override
