@@ -6,11 +6,13 @@
 package vista;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -23,29 +25,22 @@ import java.util.logging.Logger;
 public class ClienteMulticast extends Thread {
 
     public void run() {
-        String IP = "228.5.6.1";
+        
         int PUERTO = 7890;
-
+        DataInputStream mensajeEntrada = null;
+        ServerSocket socketServidor = null;
         Socket socket = null;
+        
         try {
-            socket = new Socket(IP, PUERTO);
-            socket.joinGroup(group);
-            String mensaje = "";
+            socketServidor = new ServerSocket(PUERTO);
             while (true) {
-                byte[] buffer = new byte[1000];
-                if (mensaje.equalsIgnoreCase("FIN")) {
-                    break;
-                }
-                DatagramPacket mensajeEntrada = new DatagramPacket(buffer, buffer.length);
-                socket.receive(mensajeEntrada);
-                String msj = new String(mensajeEntrada.getData());
-                System.out.println("Se recibió el mensaje: " + msj);
-//                System.out.println(socket.getInetAddress());
-                analizarMensaje(msj);
-                mensajeEntrada = null;
-
+                socket = socketServidor.accept();
+                mensajeEntrada = new DataInputStream(socket.getInputStream());
+                String mensaje = mensajeEntrada.readUTF();
+                System.out.println("Se recibió el mensaje: " + mensaje);
+                analizarMensaje(mensaje);
+                socket.close();
             }
-            socket.leaveGroup(group);
 
         } catch (UnknownHostException e) {
             System.out.println("UnknownHostException");
