@@ -1,4 +1,3 @@
-
 package vista;
 
 import java.awt.event.MouseEvent;
@@ -24,17 +23,13 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     Connection conexion;
     private static Panel panel = null;
     private final String miIp;
-    private int delay = 0;
+    private static final int delay = 1000;
     private boolean miTurno;
+    private ServidorTCP cliente;
 
     private Panel() {
         initComponents();
-        iniciarServidor();
-        conexion = new Connection();
-        numeros = conexion.saludarServer();
-        llenarLabels();
-        voltearDisponibles();
-        delay = 1000;
+        iniciarJuego();
         crearEventos();
         miIp = conexion.getMiIp();
         setMiTurno(conexion.getTurnoActual().equals(miIp));
@@ -1163,6 +1158,9 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         for (int i = 0; i < 100; i++) {
             labels.get(i).setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/" + ((numeros.get(i) % 25) + 1) + ".png")));
         }
+        for (int i = 0; i < 100; i++) {
+            labels.get(i).setEnabled(false);
+        }
     }
 
     private void crearEventos() {
@@ -1174,7 +1172,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent evento) {
         if (miTurno) {
-//            setMiTurno(false);
             int indice = labels.indexOf(((JLabel) evento.getSource()));
             enviarMensajeServidor(String.valueOf(indice));
         } else {
@@ -1191,7 +1188,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF(mensaje);
-//            System.out.println(miIp);
             socket.close();
 
         } catch (UnknownHostException e) {
@@ -1209,8 +1205,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         if (!tarjeta.isEnabled()) {
             tarjeta.setEnabled(true);
             seleccionados.add(tarjeta);
-//                int num = labels.indexOf(((JLabel)evento.getSource()));
-//                JOptionPane.showMessageDialog(null, num);
             if (seleccionados.size() == 2) {
                 verificar();
             }
@@ -1247,9 +1241,17 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     }
 
-    private void iniciarServidor() {
-        ServidorTCP cliente = new ServidorTCP();
+    public void iniciarJuego() {
+        cliente = new ServidorTCP();
         cliente.start();
+        conexion = new Connection();
+        numeros = conexion.saludarServer();
+        llenarLabels();
+        voltearDisponibles();
+        J1.setText("0");
+        J2.setText("0");
+        J3.setText("0");
+        J4.setText("0");
     }
 
     /**

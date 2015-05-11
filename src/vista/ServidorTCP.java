@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import javax.swing.JOptionPane;
 
 public class ServidorTCP extends Thread {
+
+    private boolean gameOver = false;
 
     public void run() {
 
@@ -16,8 +19,8 @@ public class ServidorTCP extends Thread {
         Socket socket = null;
 
         try {
-            socketServidor = new ServerSocket(PUERTO);
-            while (true) {
+                socketServidor = new ServerSocket(PUERTO);
+            while (!gameOver) {
                 socket = socketServidor.accept();
                 mensajeEntrada = new DataInputStream(socket.getInputStream());
                 String mensaje = mensajeEntrada.readUTF();
@@ -25,7 +28,8 @@ public class ServidorTCP extends Thread {
                 analizarMensaje(mensaje);
                 socket.close();
             }
-
+            socketServidor.close();
+            Panel.getInstance().iniciarJuego();
         } catch (UnknownHostException e) {
             System.out.println("UnknownHostException");
             e.printStackTrace();
@@ -50,6 +54,10 @@ public class ServidorTCP extends Thread {
             Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
             System.out.println(Panel.getInstance().isMiTurno());
             establecerPuntuaciones(respuesta[2]);
+        } else if (respuesta[0].equals("fin")) {
+            String ganador = respuesta[1];
+            JOptionPane.showMessageDialog(null, "Ganó el jugador " + ganador);
+            gameOver = true;
         }
         if (Panel.getInstance().isMiTurno()) {
             Panel.getInstance().turnoLb.setText("Es tu turno");

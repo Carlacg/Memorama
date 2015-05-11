@@ -24,7 +24,8 @@ public class Connection {
 
     public ArrayList<Integer> saludarServer() {
         try {
-
+            volteadas.clear();
+            ordenTarjetas.clear();
             String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
             socket = new Socket(ip, PORT);
             miIp = socket.getLocalAddress().toString();
@@ -33,17 +34,15 @@ public class Connection {
 
             DataInputStream in = new DataInputStream(socket.getInputStream());
             String lista = in.readUTF();
-            String[] tarjetas = lista.split("@");
-            String[] orden = tarjetas[0].split("\n");
+            String[] elementos = lista.split("@");
+            String[] orden = elementos[0].split("\n");
             for (String tarjeta : orden) {
                 ordenTarjetas.add(new Integer(tarjeta));
             }
-            this.turnoActual = tarjetas[1];
-//            boolean turno = turnoActual.equals(Panel.getInstance().getMiIp());
-//            Panel.getInstance().setMiTurno(turno);
-            this.jugador = tarjetas[2];
-            if (tarjetas.length == 4) {
-                String[] volteadas = tarjetas[3].split("\n");
+            this.turnoActual = elementos[1];
+            this.jugador = elementos[2];
+            if (elementos.length == 4) {
+                String[] volteadas = elementos[3].split("\n");
                 for (String volteada : volteadas) {
                     this.volteadas.add(new Integer(volteada));
                 }
@@ -69,6 +68,7 @@ public class Connection {
         return volteadas;
     }
 
+    
     public String getJugador() {
         return jugador;
     }
