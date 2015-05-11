@@ -26,37 +26,60 @@ public class Connection {
         try {
             volteadas.clear();
             ordenTarjetas.clear();
-            String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
-            socket = new Socket(ip, PORT);
-            miIp = socket.getLocalAddress().toString();
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            out.writeUTF("holi");
-
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            String lista = in.readUTF();
-            String[] elementos = lista.split("@");
-            if (elementos.length==1) {
-                JOptionPane.showMessageDialog(null, "Límite de jugadores alcanzado");
-                return ordenTarjetas;
-            }
-            String[] orden = elementos[0].split("\n");
-            for (String tarjeta : orden) {
-                ordenTarjetas.add(new Integer(tarjeta));
-            }
-            this.turnoActual = elementos[1];
-            this.jugador = elementos[2];
-            if (elementos.length == 4) {
-                String[] volteadas = elementos[3].split("\n");
-                for (String volteada : volteadas) {
-                    this.volteadas.add(new Integer(volteada));
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Bienvenido, eres el jugador "+ getJugador());
+            establecerConexion();
+            String mensaje = recibirMensaje();
+            analizarMensaje(mensaje);
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ordenTarjetas;
+    }
+
+    private void establecerConexion() throws IOException {
+        String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
+        socket = new Socket(ip, PORT);
+        miIp = socket.getLocalAddress().toString();
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        out.writeUTF("holi");
+    }
+
+    private String recibirMensaje() throws IOException {
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        String lista = in.readUTF();
+        return lista;
+    }
+
+    private void analizarMensaje(String mensaje) {
+        String lista = mensaje;
+        String[] elementos = lista.split("@");
+        if (elementos.length == 1) {
+            JOptionPane.showMessageDialog(null, "Límite de jugadores alcanzado");
+            ordenTarjetas.clear();
+        } else {
+            establecerOrdenTarjetas(elementos[0]);
+            this.turnoActual = elementos[1];
+            this.jugador = elementos[2];
+            boolean juegoComenzado = elementos.length == 4;
+            if (juegoComenzado) {
+                establecerTarjetasVolteadas(elementos[3]);
+            }
+            JOptionPane.showMessageDialog(null, "Bienvenido, eres el jugador " + getJugador());
+        }
+    }
+
+    private void establecerOrdenTarjetas(String elemento) {
+        String[] orden = elemento.split("\n");
+        for (String tarjeta : orden) {
+            ordenTarjetas.add(new Integer(tarjeta));
+        }
+    }
+
+    private void establecerTarjetasVolteadas(String elemento) {
+        String[] volteadas = elemento.split("\n");
+        for (String volteada : volteadas) {
+            this.volteadas.add(new Integer(volteada));
+        }
     }
 
     public Socket getSocket() {
@@ -71,7 +94,6 @@ public class Connection {
         return volteadas;
     }
 
-    
     public String getJugador() {
         return jugador;
     }
@@ -79,6 +101,5 @@ public class Connection {
     public String getTurnoActual() {
         return turnoActual;
     }
-    
-    
+
 }
