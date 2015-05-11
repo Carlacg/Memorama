@@ -35,6 +35,10 @@ public class Connection {
             DataInputStream in = new DataInputStream(socket.getInputStream());
             String lista = in.readUTF();
             String[] elementos = lista.split("@");
+            if (elementos.length==1) {
+                JOptionPane.showMessageDialog(null, "Límite de jugadores alcanzado");
+                return ordenTarjetas;
+            }
             String[] orden = elementos[0].split("\n");
             for (String tarjeta : orden) {
                 ordenTarjetas.add(new Integer(tarjeta));
@@ -47,7 +51,6 @@ public class Connection {
                     this.volteadas.add(new Integer(volteada));
                 }
             }
-            
             JOptionPane.showMessageDialog(null, "Bienvenido, eres el jugador "+ getJugador());
             socket.close();
         } catch (IOException ex) {

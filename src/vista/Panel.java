@@ -1246,6 +1246,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         cliente.start();
         conexion = new Connection();
         numeros = conexion.saludarServer();
+        if (numeros.isEmpty()) {
+            this.dispose();
+            System.exit(0);
+        }
         llenarLabels();
         voltearDisponibles();
         J1.setText("0");
