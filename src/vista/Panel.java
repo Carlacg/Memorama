@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import main.Broker;
 
 public class Panel extends javax.swing.JFrame implements MouseListener {
 
@@ -22,6 +23,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     Socket socket = null;
     Connection conexion;
     private static Panel panel = null;
+    private ArrayList<InetAddress>  ipJugadores ;
     private final String miIp;
     private static final int delay = 1000;
     private boolean miTurno;
@@ -33,6 +35,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         crearEventos();
         miIp = conexion.getMiIp();
         setMiTurno(conexion.getTurnoActual().equals(miIp));
+        ipJugadores = new ArrayList();
     }
 
     public static Panel getInstance() {
@@ -1196,6 +1199,13 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
+            //Conexion rehusada
+            System.out.println("Levantando servidor alterno...");
+            try {            
+                levantarServidorAlterno();
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1241,6 +1251,29 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     }
 
+    public void setIpJugadores(String ipJugadores) throws UnknownHostException{
+        this.ipJugadores.clear();
+        String[] ips = ipJugadores.split(",");
+        for (String ip : ips) {
+            ip = ip.substring(1, ip.length());
+            InetAddress address = InetAddress.getByName(ip);
+            this.ipJugadores.add(address);
+        }
+        System.out.println(ipJugadores);
+    }
+    
+    private void levantarServidorAlterno() throws UnknownHostException {
+        Broker broker = new Broker();
+        InetAddress ip = InetAddress.getByName(getMiIp().substring(1, getMiIp().length()));
+        ArrayList<Integer> puntuacion = new ArrayList();
+        puntuacion.add(Integer.valueOf(J1.getText()));
+        puntuacion.add(Integer.valueOf(J2.getText()));
+        puntuacion.add(Integer.valueOf(J3.getText()));
+        puntuacion.add(Integer.valueOf(J4.getText()));
+        broker.setServer(ipJugadores, ip, Connection.getOrdenTarjetas(), puntuacion, Connection.getVolteadas());
+        broker.listen();
+    }
+   
     public void iniciarJuego() {
         cliente = new ServidorTCP();
         cliente.start();

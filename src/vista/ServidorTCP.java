@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ServidorTCP extends Thread {
@@ -19,7 +21,7 @@ public class ServidorTCP extends Thread {
         Socket socket = null;
 
         try {
-                socketServidor = new ServerSocket(PUERTO);
+            socketServidor = new ServerSocket(PUERTO);
             while (!gameOver) {
                 socket = socketServidor.accept();
                 mensajeEntrada = new DataInputStream(socket.getInputStream());
@@ -40,24 +42,30 @@ public class ServidorTCP extends Thread {
     }
 
     private void analizarMensaje(String mensaje) {
-        String[] respuesta = mensaje.split("\n");
-        System.out.println("Tamaño: " + respuesta.length);
-        if (respuesta[0].equals("movimiento")) {
-            int index = Integer.parseInt(respuesta[1]);
-            String ip = respuesta[2];
-            System.out.println("turno actual: " + ip);
-            System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
-            Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
-            Panel.getInstance().voltearTarjeta(index);
-        } else if (respuesta[0].equals("puntuacion")) {
-            String ip = respuesta[1];
-            Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
-            System.out.println(Panel.getInstance().isMiTurno());
-            establecerPuntuaciones(respuesta[2]);
-        } else if (respuesta[0].equals("fin")) {
-            String ganador = respuesta[1];
-            JOptionPane.showMessageDialog(null, "Ganó el jugador " + ganador);
-            gameOver = true;
+        String[] parteDeMensaje = mensaje.split("\n");
+        System.out.println("Tamaño: " + parteDeMensaje.length);
+        String ip;
+        switch (parteDeMensaje[0]) {
+            case "movimiento":
+                int index = Integer.parseInt(parteDeMensaje[1]);
+                ip = parteDeMensaje[2];
+                System.out.println("turno actual: " + ip);
+                System.out.println("Mi turno: " + Panel.getInstance().getMiIp());
+                Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+                Panel.getInstance().voltearTarjeta(index);
+                break;
+            case "puntuacion":
+                ip = parteDeMensaje[1];
+                Panel.getInstance().setMiTurno(Panel.getInstance().getMiIp().equals(ip));
+                System.out.println(Panel.getInstance().isMiTurno());
+                establecerPuntuaciones(parteDeMensaje[2]);
+                almacenarJugadores(parteDeMensaje[3]);
+                break;
+            case "fin":
+                String ganador = parteDeMensaje[1];
+                JOptionPane.showMessageDialog(null, "Ganó el jugador " + ganador);
+                gameOver = true;
+                break;
         }
         if (Panel.getInstance().isMiTurno()) {
             Panel.getInstance().turnoLb.setText("Es tu turno");
@@ -73,5 +81,13 @@ public class ServidorTCP extends Thread {
         Panel.J2.setText(puntuacion[1]);
         Panel.J3.setText(puntuacion[2]);
         Panel.J4.setText(puntuacion[3]);
+    }
+
+    private void almacenarJugadores(String jugadores) {
+        try {
+            Panel.getInstance().setIpJugadores(jugadores);
+        } catch (IOException ex) {
+            Logger.getLogger(ServidorTCP.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

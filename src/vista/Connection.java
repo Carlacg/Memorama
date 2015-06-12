@@ -14,7 +14,7 @@ public class Connection {
     private Socket socket;
     private static final int PORT = 7896;
     private static final ArrayList<Integer> ordenTarjetas = new ArrayList<>();
-    private final ArrayList<Integer> volteadas = new ArrayList<>();
+    private static final ArrayList<Integer> volteadas = new ArrayList<>();
     private String miIp;
     private String jugador = "";
     private String turnoActual = "";
@@ -90,10 +90,14 @@ public class Connection {
         return miIp;
     }
 
-    public ArrayList<Integer> getVolteadas() {
+    public static ArrayList<Integer> getVolteadas() {
         return volteadas;
     }
 
+    public static ArrayList<Integer> getOrdenTarjetas() {
+        return ordenTarjetas;
+    }
+    
     public String getJugador() {
         return jugador;
     }
