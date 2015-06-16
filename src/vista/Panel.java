@@ -1470,5 +1470,11 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     public String getMiIp() {
         return miIp;
     }
+    
+    public Connection getConexion() {
+        return conexion;
+    }
+    
+    
 
 }

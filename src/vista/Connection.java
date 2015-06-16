@@ -82,6 +82,14 @@ public class Connection {
         }
     }
 
+    public void setSocket(String ip) {
+        try {
+            this.socket = new Socket(ip,PORT);
+        } catch (IOException ex) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public Socket getSocket() {
         return socket;
     }

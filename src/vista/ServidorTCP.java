@@ -41,7 +41,7 @@ public class ServidorTCP extends Thread {
         }
     }
 
-    private void analizarMensaje(String mensaje) {
+    private void analizarMensaje(String mensaje) throws IOException {
         String[] parteDeMensaje = mensaje.split("\n");
         System.out.println("Tamaño: " + parteDeMensaje.length);
         String ip;
@@ -65,6 +65,11 @@ public class ServidorTCP extends Thread {
                 String ganador = parteDeMensaje[1];
                 JOptionPane.showMessageDialog(null, "Ganó el jugador " + ganador);
                 gameOver = true;
+                break;
+            case "cambio":
+                String ipServidor = parteDeMensaje[1];
+                Panel.getInstance().getConexion().getSocket().close();
+                Panel.getInstance().getConexion().setSocket(ipServidor);
                 break;
         }
         if (Panel.getInstance().isMiTurno()) {
