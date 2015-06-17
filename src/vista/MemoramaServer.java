@@ -34,7 +34,7 @@ public class MemoramaServer extends Thread{
     public void run() {
         try {
             Broker broker = new Broker();
-            InetAddress ip = InetAddress.getByName(miIp.substring(1, miIp.length()));
+            InetAddress ip = InetAddress.getByName(miIp);
             ArrayList<Integer> puntuacion = new ArrayList();
             puntuacion.add(Integer.valueOf(J1.getText()));
             puntuacion.add(Integer.valueOf(J2.getText()));

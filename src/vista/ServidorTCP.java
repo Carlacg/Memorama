@@ -68,8 +68,8 @@ public class ServidorTCP extends Thread {
                 break;
             case "cambio":
                 String ipServidor = parteDeMensaje[1];
-                Panel.getInstance().getConexion().getSocket().close();
-                Panel.getInstance().getConexion().setSocket(ipServidor);
+                Connection.setIpServidor(ipServidor);
+                //Panel.getInstance().getConexion().setSocket(ipServidor);
                 break;
         }
         if (Panel.getInstance().isMiTurno()) {

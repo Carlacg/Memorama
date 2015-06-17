@@ -1184,8 +1184,8 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
 
     private void enviarMensajeServidor(String mensaje) {
         try {
-            InetAddress ip = conexion.getSocket().getInetAddress();
-            int puerto = conexion.getSocket().getPort();
+            String ip = Connection.getIpServidor();
+            int puerto = Connection.getPORT();
             System.out.println(ip.toString()+": "+puerto);
 
             socket = new Socket(ip, puerto);
@@ -1199,8 +1199,6 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {
-            System.out.println("IO:" + e.getMessage());
-            //Conexion rehusada
             System.out.println("Levantando servidor alterno...");
             levantarServidorAlterno();
         }
@@ -1260,9 +1258,10 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
     }
     
     private void levantarServidorAlterno(){
-        MemoramaServer server = new MemoramaServer(getMiIp(), ipJugadores);
         String nuevaIp= getMiIp().substring(1);
-        conexion.setSocket(nuevaIp);
+        Connection.setIpServidor(nuevaIp);
+        //conexion.setSocket(nuevaIp);
+        MemoramaServer server = new MemoramaServer(Connection.getIpServidor(), ipJugadores);
         server.start();
     }
    

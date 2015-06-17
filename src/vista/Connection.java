@@ -18,6 +18,7 @@ public class Connection {
     private String miIp;
     private String jugador = "";
     private String turnoActual = "";
+    private static String ipServidor;
 
     public Connection() {
     }
@@ -37,8 +38,8 @@ public class Connection {
     }
 
     private void establecerConexion() throws IOException {
-        String ip = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
-        socket = new Socket(ip, PORT);
+        ipServidor = JOptionPane.showInputDialog("Ingrese la IP del servidor:");
+        socket = new Socket(ipServidor, PORT);
         miIp = socket.getLocalAddress().toString();
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         out.writeUTF("holi");
@@ -84,11 +85,22 @@ public class Connection {
 
     public void setSocket(String ip) {
         try {
-            this.socket.close();
             this.socket = new Socket(ip,PORT);
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static String getIpServidor() {
+        return ipServidor;
+    }
+
+    public static void setIpServidor(String ipServidor) {
+        Connection.ipServidor = ipServidor;
+    }
+
+    public static int getPORT() {
+        return PORT;
     }
     
     public Socket getSocket() {
