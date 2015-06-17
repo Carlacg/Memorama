@@ -1186,6 +1186,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         try {
             InetAddress ip = conexion.getSocket().getInetAddress();
             int puerto = conexion.getSocket().getPort();
+            System.out.println(ip.toString()+": "+puerto);
 
             socket = new Socket(ip, puerto);
 
@@ -1201,11 +1202,7 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
             System.out.println("IO:" + e.getMessage());
             //Conexion rehusada
             System.out.println("Levantando servidor alterno...");
-            try {            
-                levantarServidorAlterno();
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            levantarServidorAlterno();
         }
     }
 
@@ -1262,16 +1259,11 @@ public class Panel extends javax.swing.JFrame implements MouseListener {
         System.out.println(ipJugadores);
     }
     
-    private void levantarServidorAlterno() throws UnknownHostException {
-        Broker broker = new Broker();
-        InetAddress ip = InetAddress.getByName(getMiIp().substring(1, getMiIp().length()));
-        ArrayList<Integer> puntuacion = new ArrayList();
-        puntuacion.add(Integer.valueOf(J1.getText()));
-        puntuacion.add(Integer.valueOf(J2.getText()));
-        puntuacion.add(Integer.valueOf(J3.getText()));
-        puntuacion.add(Integer.valueOf(J4.getText()));
-        broker.setServer(ipJugadores, ip, Connection.getOrdenTarjetas(), puntuacion, Connection.getVolteadas());
-        broker.listen();
+    private void levantarServidorAlterno(){
+        MemoramaServer server = new MemoramaServer(getMiIp(), ipJugadores);
+        String nuevaIp= getMiIp().substring(1);
+        conexion.setSocket(nuevaIp);
+        server.start();
     }
    
     public void iniciarJuego() {

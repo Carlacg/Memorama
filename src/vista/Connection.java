@@ -84,6 +84,7 @@ public class Connection {
 
     public void setSocket(String ip) {
         try {
+            this.socket.close();
             this.socket = new Socket(ip,PORT);
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
